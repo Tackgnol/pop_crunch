@@ -39,6 +39,113 @@ export const questions: QuestionData[] = [
     ],
   },
   {
+    statement:
+      "In George R.R. Martin's A Song of Ice and Fire, the Wall, a massive ice structure, is defended by the Night's Watch to protect the realms of men from the Others and wildlings beyond.",
+    difficulty: 'medium',
+    fixes: [
+      {
+        text: 'ice structure',
+        startPosition: 14,
+        endPosition: 15,
+        options: [
+          { suggestion: 'ice structure', correct: true },
+          { suggestion: 'stone fortress', correct: false },
+          { suggestion: 'ancient forest', correct: false },
+          { suggestion: 'magical barrier', correct: false },
+        ],
+      },
+      {
+        text: "Night's Watch",
+        startPosition: 20,
+        endPosition: 21,
+        options: [
+          { suggestion: 'Kingsguard', correct: false },
+          { suggestion: 'Gold Cloaks', correct: false },
+          { suggestion: "Night's Watch", correct: true },
+          { suggestion: 'Brotherhood Without Banners', correct: false },
+        ],
+      },
+      {
+        text: 'Others',
+        startPosition: 30,
+        options: [
+          { suggestion: 'Others', correct: true },
+          { suggestion: 'Dothraki', correct: false },
+          { suggestion: 'Lannisters', correct: false },
+          { suggestion: 'Giants', correct: false },
+        ],
+      },
+    ],
+  },
+  {
+    statement:
+      "In Terry Pratchett's Discworld, the Patrician of Ankh-Morpork is Lord Vetinari, a wise and benevolent leader who rules with absolute democracy.",
+    difficulty: 'medium',
+    fixes: [
+      {
+        text: 'Patrician',
+        startPosition: 5,
+        options: [
+          { suggestion: 'King', correct: false },
+          { suggestion: 'Patrician', correct: true },
+          { suggestion: 'Mayor', correct: false },
+          { suggestion: 'Archchancellor', correct: false },
+        ],
+      },
+      {
+        text: 'wise and benevolent leader',
+        startPosition: 12,
+        endPosition: 15,
+        options: [
+          { suggestion: 'wise and ruthless leader', correct: true },
+          { suggestion: 'chaotic and unpredictable figure', correct: false },
+          { suggestion: 'kind and elderly advisor', correct: false },
+          { suggestion: 'powerful magical entity', correct: false },
+        ],
+      },
+    ],
+  },
+  {
+    statement:
+      "In Brandon Sanderson's Mistborn series, the inhabitants of the Final Empire, primarily Skaa and Nobles, lived under the oppressive rule of the Lord Ruler for a thousand years.",
+    difficulty: 'hard',
+    fixes: [
+      {
+        text: 'Final Empire',
+        startPosition: 9,
+        endPosition: 10,
+        options: [
+          { suggestion: 'Final Empire', correct: true },
+          { suggestion: 'Scarred Lands', correct: false },
+          { suggestion: 'Steel Ministry', correct: false },
+          { suggestion: 'Shattered Plains', correct: false },
+        ],
+      },
+      {
+        text: 'Skaa and Nobles',
+        startPosition: 12,
+        endPosition: 14,
+        options: [
+          { suggestion: 'Skaa and Nobles', correct: true },
+          { suggestion: 'Lighteyes and Darkeyes', correct: false },
+          { suggestion: 'Radiants and Squires', correct: false },
+          { suggestion: 'Ferrings and Terrismen', correct: false },
+        ],
+      },
+      {
+        text: 'Lord Ruler',
+        startPosition: 22,
+        endPosition: 23,
+        options: [
+          { suggestion: 'Lord Ruler', correct: true },
+          { suggestion: 'Vin Venture', correct: false },
+          { suggestion: 'Kelsier', correct: false },
+          { suggestion: 'Harmony', correct: false },
+        ],
+      },
+    ],
+  },
+  {
     statement: 'In Star Wars, the Millennium Falcon made the Kessel Run in less than 14 parsecs.',
     difficulty: 'easy',
     fixes: [
@@ -299,30 +406,79 @@ export const questions: QuestionData[] = [
     ],
   },
   {
-    statement: 'Luke, I am your father is one of the most famous movie quotes from Star Wars.',
+    statement:
+      'In many D&D settings, the Astral Plane is a silvery realm connecting other planes, where thought can allow movement and Githyanki hunt Mind Flayers.',
     difficulty: 'medium',
     fixes: [
       {
-        text: 'I am',
-        startPosition: 1,
-        endPosition: 2,
-        groupId: 'vader-i',
+        text: 'Astral Plane',
+        startPosition: 5,
+        endPosition: 6,
         options: [
-          { suggestion: 'I am', correct: false },
-          { suggestion: 'No, I am', correct: true },
-          { suggestion: 'You are', correct: false },
-          { suggestion: 'We are', correct: false },
+          { suggestion: 'Astral Plane', correct: true },
+          { suggestion: 'Shadowfell', correct: false },
+          { suggestion: 'Elemental Plane of Air', correct: false },
+          { suggestion: 'Ethereal Plane', correct: false },
         ],
       },
       {
-        text: 'Luke',
-        startPosition: 0,
-        groupId: 'vader-son',
+        text: 'silvery realm',
+        startPosition: 9,
+        endPosition: 10,
         options: [
-          { suggestion: 'Son', correct: true },
-          { suggestion: 'Luke', correct: false },
-          { suggestion: 'Anakin', correct: false },
-          { suggestion: 'Padawan', correct: false },
+          { suggestion: 'silvery realm', correct: true },
+          { suggestion: 'fiery void', correct: false },
+          { suggestion: 'endless forest', correct: false },
+          { suggestion: 'chaotic maelstrom', correct: false },
+        ],
+      },
+      {
+        text: 'Githyanki',
+        startPosition: 20,
+        options: [
+          { suggestion: 'Githyanki', correct: true },
+          { suggestion: 'Githzerai', correct: false },
+          { suggestion: 'Illithid', correct: false },
+          { suggestion: 'Modrons', correct: false },
+        ],
+      },
+      {
+        text: 'Mind Flayers',
+        startPosition: 22,
+        endPosition: 23,
+        options: [
+          { suggestion: 'Beholders', correct: false },
+          { suggestion: 'Mind Flayers', correct: true },
+          { suggestion: 'Aboleths', correct: false },
+          { suggestion: 'Demons', correct: false },
+        ],
+      },
+    ],
+  },
+  {
+    statement:
+      'Vecna is a powerful lich who sought godhood, known for his artifacts: the Eye of Vecna and Hand of Vecna.',
+    difficulty: 'medium',
+    fixes: [
+      {
+        text: 'lich',
+        startPosition: 4,
+        options: [
+          { suggestion: 'lich', correct: true },
+          { suggestion: 'vampire', correct: false },
+          { suggestion: 'demilich', correct: false },
+          { suggestion: 'mummy lord', correct: false },
+        ],
+      },
+      {
+        text: 'Eye of Vecna and Hand of Vecna',
+        startPosition: 12,
+        endPosition: 19,
+        options: [
+          { suggestion: 'Sphere of Annihilation', correct: false },
+          { suggestion: 'Rod of Seven Parts', correct: false },
+          { suggestion: 'Blade of Kas', correct: false },
+          { suggestion: 'Eye of Vecna and Hand of Vecna', correct: true },
         ],
       },
     ],
