@@ -13,6 +13,7 @@ interface GameAreaProps {
   selectedWords: Record<number, { text: string; endPosition?: number; groupId?: string }>;
   isCardFlashing: boolean;
   score: number;
+  maxPossibleScore: number;
   handleWordSelection: (
     position: number,
     suggestion: string,
@@ -34,6 +35,7 @@ export function GameArea({
   handleWordSelection,
   checkAnswers,
   handleRestart,
+  maxPossibleScore,
 }: GameAreaProps) {
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-2xl">
@@ -41,17 +43,17 @@ export function GameArea({
         {!isQuizCompleted ? (
           <FlipCard questionIndex={currentQuestionIndex}>
             <GameCard
-              type="white"
               text={`Question ${currentQuestionIndex + 1} of ${totalQuestions}`}
               statement={currentQuestion.statement}
               fixes={currentQuestion.fixes}
               selectedWords={selectedWords}
               onSelectWord={handleWordSelection}
               isFlashing={isCardFlashing}
+              difficulty={currentQuestion.difficulty}
             />
           </FlipCard>
         ) : (
-          <VictoryScreen score={score} totalQuestions={totalQuestions} />
+          <VictoryScreen score={score} maxScore={maxPossibleScore} />
         )}
       </div>
 

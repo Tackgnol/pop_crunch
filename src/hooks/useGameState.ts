@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import confetti from 'canvas-confetti';
+import { pointsMap } from 'src/constants.ts';
 import { questions } from '../assets/questions';
 import { toDefaultSelection } from '../components/utils';
 
@@ -11,6 +12,14 @@ export function useGameState() {
   const [isCardFlashing, setIsCardFlashing] = useState(false);
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
 
+  // Calculate the total possible score by summing points for each question's difficulty
+  const maxPossibleScore = useMemo(() => {
+    return questions.reduce((total, question) => {
+      // Add points for the current question's difficulty to the total
+      return total + (pointsMap[question.difficulty] || 0); // Use || 0 as a safeguard
+    }, 0); // Start the sum at 0
+  }, []); // Recalculate only if questions array changes (which it shouldn't in this setup)
+
   useEffect(() => {
     setSelectedWords(toDefaultSelection(questions[currentQuestionIndex].fixes));
     setIsCardFlashing(false);
@@ -20,27 +29,23 @@ export function useGameState() {
     (position: number, suggestion: string, endPosition?: number, groupId?: string) => {
       setSelectedWords(prev => {
         const newState = { ...prev };
-
-        newState[position] = {
-          text: suggestion,
-          endPosition,
-          groupId,
-        };
-
-        // If this is part of a group, update all related selections
+        newState[position] = { text: suggestion, endPosition, groupId };
         if (groupId) {
+          // Handle grouped selections (existing logic)
           questions[currentQuestionIndex].fixes.forEach(fix => {
             if (fix.groupId === groupId && fix.startPosition !== position) {
-              const option = fix.options.find(
-                opt =>
-                  questions[currentQuestionIndex].fixes
-                    .find(f => f.startPosition === position)
-                    ?.options.find(o => o.suggestion === suggestion)?.correct === opt.correct
+              const originalFix = questions[currentQuestionIndex].fixes.find(
+                f => f.startPosition === position
               );
-
-              if (option) {
+              const selectedOptionCorrectness = originalFix?.options.find(
+                o => o.suggestion === suggestion
+              )?.correct;
+              const correspondingOption = fix.options.find(
+                opt => opt.correct === selectedOptionCorrectness
+              );
+              if (correspondingOption) {
                 newState[fix.startPosition] = {
-                  text: option.suggestion,
+                  text: correspondingOption.suggestion,
                   endPosition: fix.endPosition,
                   groupId,
                 };
@@ -48,7 +53,6 @@ export function useGameState() {
             }
           });
         }
-
         return newState;
       });
     },
@@ -64,11 +68,7 @@ export function useGameState() {
       setCurrentQuestionIndex(i => i + 1);
     } else {
       setIsQuizCompleted(true);
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 1 },
-      });
+      confetti({ particleCount: 200, spread: 100, origin: { y: 1 } });
     }
   }, [currentQuestionIndex]);
 
@@ -91,17 +91,13 @@ export function useGameState() {
     }
 
     if (totalSelected < currentQuestion.fixes.length) {
-      // Could add a notification here to select all words
+      // Handle incomplete selection if needed
     } else if (allCorrect) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.2 },
-      });
-      setScore(prevScore => prevScore + 1);
-      setTimeout(() => {
-        moveToNextQuestion();
-      }, 200);
+      confetti({ particleCount: 100, spread: 70, origin: { y: 0.2 } });
+      // Award points based on difficulty
+      const pointsToAdd = pointsMap[currentQuestion.difficulty];
+      setScore(prevScore => prevScore + pointsToAdd);
+      setTimeout(moveToNextQuestion, 200);
     } else {
       setIsCardFlashing(true);
       setTimeout(() => {
@@ -120,18 +116,19 @@ export function useGameState() {
   const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return {
+    score,
+    isQuizCompleted,
+    handleRestart,
+    currentQuestion: questions[currentQuestionIndex],
+    totalQuestions: questions.length,
+    maxPossibleScore,
     currentQuestionIndex,
     selectedWords,
     actionWord,
-    score,
     isCardFlashing,
-    isQuizCompleted,
     progressPercentage,
     handleWordSelection,
     handleActionWordSelection,
     checkAnswers,
-    handleRestart,
-    currentQuestion: questions[currentQuestionIndex],
-    totalQuestions: questions.length,
   };
 }
