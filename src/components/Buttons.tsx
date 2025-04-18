@@ -15,10 +15,7 @@ export function Buttons({ isQuizCompleted, onCheckAnswers, onRestart }: ButtonsP
           Submit Answer
         </button>
       ) : (
-        <button 
-          className="btn btn-outline btn-primary text-blue-600 w-full"
-          onClick={onRestart}
-        >
+        <button className="btn btn-outline btn-primary text-blue-600 w-full" onClick={onRestart}>
           Play Again
         </button>
       )}

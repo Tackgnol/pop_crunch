@@ -1,19 +1,24 @@
-import {QuestionData} from "../models.ts";
-import { FlipCard } from "./FlipCard";
-import { GameCard } from "./Card";
-import { VictoryScreen } from "./VictoryScreen";
-import { Buttons } from "./Buttons";
-import { ScoreDisplay } from "./ScoreDisplay";
+import { QuestionData } from 'src/models.ts';
+import { FlipCard } from 'components/FlipCard';
+import { GameCard } from 'components/Card';
+import { VictoryScreen } from 'components/VictoryScreen';
+import { Buttons } from 'components/Buttons';
+import { ScoreDisplay } from 'components/ScoreDisplay';
 
 interface GameAreaProps {
   isQuizCompleted: boolean;
   currentQuestionIndex: number;
   currentQuestion: QuestionData;
   totalQuestions: number;
-  selectedWords: Record<number, { text: string, endPosition?: number, groupId?: string }>;
+  selectedWords: Record<number, { text: string; endPosition?: number; groupId?: string }>;
   isCardFlashing: boolean;
   score: number;
-  handleWordSelection: (position: number, suggestion: string, endPosition?: number, groupId?: string) => void;
+  handleWordSelection: (
+    position: number,
+    suggestion: string,
+    endPosition?: number,
+    groupId?: string
+  ) => void;
   checkAnswers: () => void;
   handleRestart: () => void;
 }
@@ -28,7 +33,7 @@ export function GameArea({
   score,
   handleWordSelection,
   checkAnswers,
-  handleRestart
+  handleRestart,
 }: GameAreaProps) {
   return (
     <div className="flex flex-col items-center gap-4 sm:gap-6 w-full max-w-2xl">
@@ -46,20 +51,17 @@ export function GameArea({
             />
           </FlipCard>
         ) : (
-          <VictoryScreen 
-            score={score} 
-            totalQuestions={totalQuestions} 
-          />
+          <VictoryScreen score={score} totalQuestions={totalQuestions} />
         )}
       </div>
 
-      <Buttons 
+      <Buttons
         isQuizCompleted={isQuizCompleted}
         onCheckAnswers={checkAnswers}
         onRestart={handleRestart}
       />
 
-      <ScoreDisplay score={score}/>
+      <ScoreDisplay score={score} />
     </div>
   );
 }
