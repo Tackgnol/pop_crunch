@@ -1,29 +1,30 @@
 import { FC, useRef } from 'react';
+import {IOption} from "../models.ts";
 
-interface IOption {
-    suggestion: string;
-    correct: boolean;
-}
 
 interface IWordBadgeProps {
-    word: string;
+    text: string;
     options: IOption[];
     position: number;
+    endPosition?: number;
+    groupId?: string;
     badgeColor: string;
-    onSelect: (position: number, suggestion: string) => void;
+    onSelect: (position: number, suggestion: string, endPosition?: number, groupId?: string) => void;
 }
 
 export const WordBadge: FC<IWordBadgeProps> = ({
-    word,
+    text,
     options,
     position,
+    endPosition,
+    groupId,
     badgeColor,
     onSelect,
 }) => {
     const detailsRef = useRef<HTMLDetailsElement | null>(null);
 
     const handleOptionClick = (suggestion: string) => {
-        onSelect(position, suggestion);
+        onSelect(position, suggestion, endPosition, groupId);
         detailsRef.current?.removeAttribute('open');
     };
 
@@ -31,9 +32,9 @@ export const WordBadge: FC<IWordBadgeProps> = ({
         <div className="dropdown dropdown-bottom inline-block">
             <details ref={detailsRef} className="dropdown-container">
                 <summary
-                    className={`badge ${badgeColor} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-105`}
+                    className={`badge ${badgeColor} hover:opacity-90 cursor-pointer transition-all duration-200 hover:scale-105 min-w-[80px]`}
                 >
-                    {word}
+                    {text}
                 </summary>
                 <ul className="dropdown-content z-[20] menu p-2 shadow-lg bg-base-100 rounded-box w-52
                     mt-2 animate-[dropdownFade_0.2s_ease-in-out]">
@@ -41,7 +42,7 @@ export const WordBadge: FC<IWordBadgeProps> = ({
                         <li key={optionIndex}>
                             <button
                                 onClick={() => handleOptionClick(option.suggestion)}
-                                className="rounded-lg transition-colors duration-200 hover:bg-base-200 active:bg-base-300"
+                                className="btn btn-ghost w-full text-left px-2 py-1 duration-200 hover:bg-base-200"
                             >
                                 {option.suggestion}
                             </button>
